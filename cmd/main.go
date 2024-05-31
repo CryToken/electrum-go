@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net"
 	"time"
 
@@ -18,6 +19,10 @@ func main() {
 	}
 	defer conn.Close()
 
+	err = electrum.Ping(conn)
+	if err != nil {
+		log.Fatal(err)
+	}
 	conf, unconf, err := electrum.GetBalance(conn, address)
 	if err != nil {
 		fmt.Println(err)
