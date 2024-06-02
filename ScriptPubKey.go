@@ -52,6 +52,49 @@ func getScriptPubKey(address string) (string, error) {
 
 }
 
+func getLitecoinScriptPubKey(address string) (string, error) {
+	if strings.HasPrefix(address, "ltc1") {
+		_, data, err := bech32.Decode(address)
+		if err != nil {
+			return "", err
+		}
+		converted, err := bech32.ConvertBits(data[1:], 5, 8, false)
+		if err != nil {
+			return "", err
+		}
+		var scriptPubKey []byte
+		if data[0] == 0x00 { // P2WPKH
+			scriptPubKey = append([]byte{0x00, byte(len(converted))}, converted...)
+		} else { // Other SegWit versions
+			scriptPubKey = append([]byte{data[0], byte(len(converted))}, converted...)
+		}
+		result := fmt.Sprintf("%x", scriptPubKey)
+		return result, nil
+	} else if strings.HasPrefix(address, "3") {
+		decodedAddress := DecodeBase58(address)
+		if len(decodedAddress) != 25 {
+			return "", fmt.Errorf("invalid address length")
+		}
+		scriptHash := decodedAddress[1:21]
+		scriptPubKey := append([]byte{0xa9, 0x14}, scriptHash...)
+		scriptPubKey = append(scriptPubKey, 0x87)
+		result := fmt.Sprintf("%x", scriptPubKey)
+		return result, nil
+	} else if strings.HasPrefix(address, "L") || strings.HasPrefix(address, "M") {
+		decodedAddress := DecodeBase58(address)
+		if len(decodedAddress) != 25 {
+			return "", fmt.Errorf("invalid address length")
+		}
+		pubKeyHash := decodedAddress[1:21]
+		scriptPubKey := append([]byte{0x76, 0xa9, 0x14}, pubKeyHash...)
+		scriptPubKey = append(scriptPubKey, 0x88, 0xac)
+		result := fmt.Sprintf("%x", scriptPubKey)
+		return result, nil
+	} else {
+		return "", fmt.Errorf("unsupported address type")
+	}
+}
+
 func DecodeBase58(b string) []byte {
 	alphabet := "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 	result := []byte{}
