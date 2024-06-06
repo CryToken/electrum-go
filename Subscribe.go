@@ -6,6 +6,7 @@ import (
 	"fmt"
 )
 
+// Then you Subscribe to scriptHash,server return Current STATUS.Then something change you will get new status and scriptHash.
 func (s *ElectrumServer) Subscribe(address string) (string, string, error) {
 
 	var scriptPubKey string
