@@ -41,6 +41,8 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("ScriptHash:%s,status:%s\n", scriptHash, status)
-	s.ListenForNotification()
+	go s.ListenForNotification()
+
+	select {}
 
 }
