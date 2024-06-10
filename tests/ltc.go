@@ -41,8 +41,13 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("ScriptHash:%s,status:%s\n", scriptHash, status)
-	go s.ListenForNotification()
+	//go s.ListenForNotification()
+	tx, err := s.GetTx("47dcd60f0b6760e8f335249fd26ae4359ab4fefab0ffb6d671d695b3d5e7c910", true)
+	if err != nil {
+		fmt.Printf("GetTx Err: %v", err)
+	}
+	fmt.Printf("Transaction: %+v\n", tx)
 
-	select {}
+	//	select {}
 
 }

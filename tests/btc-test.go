@@ -12,7 +12,7 @@ import (
 func main() {
 
 	const electrumServer = "exs.dyshek.org:50001"
-	address := "3NLezRBqRYYGBvNdQSW9etkvAb5f3fr1Kp"
+	address := "bc1q9x4jmpf3ptxm52fpdm46cg8r24r088tzqqmwpg"
 	conn, err := net.DialTimeout("tcp", electrumServer, 5*time.Second)
 	if err != nil {
 		fmt.Println("Failed to connect to Electrum server:", err)
@@ -42,14 +42,14 @@ func main() {
 	}
 	fmt.Println("Status 2", status2)
 
-	_, status3, err := e.Subscribe("3LfmsZxY89VzPtgNRSoyiwFn61ayyaCaZ9")
+	_, status3, err := e.Subscribe("bc1q9x4jmpf3ptxm52fpdm46cg8r24r088tzqqmwpg")
 	if err != nil {
 		fmt.Println("errc", err)
 		os.Exit(1)
 	}
 	fmt.Println("Status 3", status3)
 
-	txHistory, addr, err := e.GetTxHistory("bc1q8yj0herd4r4yxszw3nkfvt53433thk0f5qst4g")
+	txHistory, addr, err := e.GetTxHistory(address)
 	if err != nil {
 		fmt.Println("Err history:", err)
 		os.Exit(1)
@@ -59,6 +59,11 @@ func main() {
 		fmt.Printf("%d.TxHash: %s,TxHeight:%v\n", indx+1, tx.TxHash, tx.Height)
 	}
 
+	tx, err := e.GetTx("71f93b4e04a3b98b771b3745953c8edffc2ffaef1a903e7c8fcfbd065be1b808", true)
+	if err != nil {
+		fmt.Printf("GetTx Err: %v", err)
+	}
+	fmt.Printf("Transaction: %+v\n", tx)
 	fmt.Println("Start Waiting Sub...")
 	e.ListenForNotification()
 
