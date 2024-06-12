@@ -11,7 +11,7 @@ import (
 
 func main() {
 
-	const electrumServer = "exs.dyshek.org:50001"
+	const electrumServer = "bolt.schulzemic.net:50001"
 	address := "bc1q9x4jmpf3ptxm52fpdm46cg8r24r088tzqqmwpg"
 	conn, err := net.DialTimeout("tcp", electrumServer, 5*time.Second)
 	if err != nil {
@@ -55,11 +55,19 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Println("History for: ", addr)
+	historyLen := len(txHistory)
 	for indx, tx := range txHistory {
 		fmt.Printf("%d.TxHash: %s,TxHeight:%v\n", indx+1, tx.TxHash, tx.Height)
+		if indx == historyLen-1 {
+			trans, err := e.GetTx(tx.TxHash, true)
+			if err != nil {
+				fmt.Printf("GetTx Err: %v", err)
+			}
+			fmt.Println(trans.Confirmations)
+		}
 	}
 
-	tx, err := e.GetTx("71f93b4e04a3b98b771b3745953c8edffc2ffaef1a903e7c8fcfbd065be1b808", true)
+	tx, err := e.GetTx("86748672613b248dc622ab64a1e4b67c112fcf6072f056602a7852e576be4676", true)
 	if err != nil {
 		fmt.Printf("GetTx Err: %v", err)
 	}

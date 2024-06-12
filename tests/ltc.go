@@ -12,7 +12,7 @@ import (
 func main() {
 
 	electrumServer := "electrum-ltc.bysh.me:50002"
-	address := "ltc1qmqnesak3hfswe5uxyk6mp2p9rwkkclgpp8at24"
+	address := "LiQCSrp6ATYHLr54SyQ5sJGPWRYmxYvj4M"
 
 	// Create a TLS configuration
 	tlsConfig := &tls.Config{
@@ -41,13 +41,14 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Printf("ScriptHash:%s,status:%s\n", scriptHash, status)
-	//go s.ListenForNotification()
 	tx, err := s.GetTx("47dcd60f0b6760e8f335249fd26ae4359ab4fefab0ffb6d671d695b3d5e7c910", true)
 	if err != nil {
 		fmt.Printf("GetTx Err: %v", err)
 	}
+	x := tx.Vout[0].Value
+	fmt.Printf("%T:%v\n", x, x)
 	fmt.Printf("Transaction: %+v\n", tx)
-
-	//	select {}
+	go s.ListenForNotification()
+	select {}
 
 }
