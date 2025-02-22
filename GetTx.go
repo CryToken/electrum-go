@@ -61,7 +61,7 @@ func (s *ElectrumServer) GetTx(txid string, verbose bool) (*Tx, error) {
 
 type ScriptPubKey struct {
 	Addresses []string `json:"addresses,omitempty"`
-	Address   string   `json:"address,omitempty`
+	Address   string   `json:"address,omitempty"`
 	Desc      string   `json:"desc,omitempty"`
 	Asm       string   `json:"asm"`
 	Hex       string   `json:"hex"`
