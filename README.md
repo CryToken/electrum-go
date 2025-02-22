@@ -6,7 +6,7 @@ It's a library to work with Electrum Server(local or remote).
 ## Install 
 
 ```bash
-$ go get github.com/crytoken/electrim-go@latest 
+$ go get github.com/crytoken/electum-go@latest 
 ```
 
 ## Getting Started
@@ -42,7 +42,7 @@ func main() {
 
 	fmt.Printf("Tx : %+v\n", tx)
 
-	//script, status, err := client.Subscribe("bc1qr35hws365juz5rtlsjtvmulu97957kqvr3zpw3")
+	
 	script, status, err := client.Subscribe("bc1pxc3entkl3v09ggcfe9nvcuq720plfu4lf5frm3yw0a39zckuasksl83a2s")
 
 	if err != nil {
@@ -56,7 +56,9 @@ func main() {
 
 You can:
  GetBalance()
+ 
  GetTxHistory()
+ 
  Subscribe for Changes
 
 
