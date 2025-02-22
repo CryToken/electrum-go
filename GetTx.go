@@ -40,6 +40,7 @@ func (s *ElectrumClient) GetTx(txid string, verbose bool) (*Tx, error) {
 	}
 
 	// Преобразование ответа в структуру Tx
+	//fmt.Printf()
 	result, ok := jsonResponse["result"].(map[string]interface{})
 	if !ok {
 		return nil, fmt.Errorf("unexpected response format")
