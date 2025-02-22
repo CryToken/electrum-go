@@ -21,7 +21,7 @@ func (s *ElectrumServer) GetBalance(address string) (int64, int64, error) {
 			return 0, 0, fmt.Errorf("error getting scriptPubKey: %w", err)
 		}
 	} else {
-		return 0, 0, fmt.Errorf("Unsupported Network: ", s.Network)
+		return 0, 0, fmt.Errorf("Unsupported Network:%s ", s.Network)
 	}
 
 	//Getting ScriptHash

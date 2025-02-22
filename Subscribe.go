@@ -23,7 +23,7 @@ func (s *ElectrumServer) Subscribe(address string) (string, string, error) {
 			return "", "", fmt.Errorf("error getting scriptPubKey: %w", err)
 		}
 	} else {
-		return "", "", fmt.Errorf("Unsupported Network: ", s.Network)
+		return "", "", fmt.Errorf("Unsupported Network: %s", s.Network)
 	}
 
 	//Getting ScriptHash
@@ -48,23 +48,23 @@ func (s *ElectrumServer) Subscribe(address string) (string, string, error) {
 
 	responseData, err := reader.ReadBytes('\n')
 	if err != nil {
-		return scriptHash, "", fmt.Errorf("Error: %w", err)
+		return scriptHash, "", fmt.Errorf("error: %w", err)
 	}
 
 	var response ElectrumResponse
 	err = json.Unmarshal(responseData, &response)
 	if err != nil {
-		return scriptHash, "", fmt.Errorf("Error: %w", err)
+		return scriptHash, "", fmt.Errorf("error: %w", err)
 	}
 
 	if response.Error != nil {
-		return scriptHash, "", fmt.Errorf("Error: %s", response.Error)
+		return scriptHash, "", fmt.Errorf("error: %s", response.Error)
 	}
 
 	var status string
 	err = json.Unmarshal(response.Result, &status)
 	if err != nil {
-		return scriptHash, "", fmt.Errorf("Error: %w", err)
+		return scriptHash, "", fmt.Errorf("error: %w", err)
 	}
 
 	return scriptHash, status, nil

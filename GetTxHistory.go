@@ -23,7 +23,7 @@ func (s *ElectrumServer) GetTxHistory(address string) ([]TxHistory, string, erro
 			return nil, "", fmt.Errorf("error getting scriptPubKey: %w", err)
 		}
 	} else {
-		return nil, "", fmt.Errorf("Unsupported Network: ", s.Network)
+		return nil, "", fmt.Errorf("Unsupported Network:%s ", s.Network)
 	}
 
 	//Getting ScriptHash
