@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func (s *ElectrumServer) GetTxHistory(address string) ([]TxHistory, string, error) {
+func (s *ElectrumClient) GetTxHistory(address string) ([]TxHistory, string, error) {
 	const method = "blockchain.scripthash.get_history"
 
 	//Getting ScriptHash

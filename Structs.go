@@ -2,12 +2,33 @@ package electrum
 
 import (
 	"encoding/json"
+	"errors"
 	"net"
+	"strings"
+	"time"
 )
 
-type ElectrumServer struct {
+type ElectrumClient struct {
 	Conn    net.Conn
 	Network string
+}
+
+func NewElectrumClient(address, network string) (*ElectrumClient, error) {
+	network = strings.ToLower(network)
+	supported := isSupportedNetwork(network)
+	if !supported {
+		return nil, errors.New("unsupported network")
+	}
+
+	conn, err := net.DialTimeout("tcp", address, 7*time.Second)
+	if err != nil {
+		return nil, err
+	}
+	return &ElectrumClient{
+		Conn:    conn,
+		Network: networks[network],
+	}, nil
+
 }
 
 // Balance represents the balance structure with confirmed and unconfirmed fields.

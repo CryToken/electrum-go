@@ -7,7 +7,7 @@ import (
 )
 
 // Then you Subscribe to scriptHash,server return Current STATUS.Then something change you will get new status and scriptHash.
-func (s *ElectrumServer) Subscribe(address string) (string, string, error) {
+func (s *ElectrumClient) Subscribe(address string) (string, string, error) {
 
 	//Getting ScriptHash
 	scriptHash, err := AddressToScriptHash(address)

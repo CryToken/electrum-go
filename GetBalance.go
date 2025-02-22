@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (s *ElectrumServer) GetBalance(address string) (int64, int64, error) {
+func (s *ElectrumClient) GetBalance(address string) (int64, int64, error) {
 	const method = "blockchain.scripthash.get_balance"
 
 	//Getting ScriptHash

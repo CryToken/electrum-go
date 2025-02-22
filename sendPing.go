@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (s *ElectrumServer) SendPing() error {
+func (s *ElectrumClient) SendPing() error {
 	const method = "server.ping"
 	request := ElectrumRequest{
 		ID:      1,

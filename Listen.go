@@ -10,7 +10,7 @@ import (
 
 //You can run it in goroutin to Listen Notifications and do not block main Threat.
 
-func (s *ElectrumServer) ListenForNotification() {
+func (s *ElectrumClient) ListenForNotification() {
 	ticker := time.NewTicker(3 * time.Minute)
 
 	defer ticker.Stop()

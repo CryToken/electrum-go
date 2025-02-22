@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func (s *ElectrumServer) GetTx(txid string, verbose bool) (*Tx, error) {
+func (s *ElectrumClient) GetTx(txid string, verbose bool) (*Tx, error) {
 	const method = "blockchain.transaction.get"
 
 	request := ElectrumRequest{
