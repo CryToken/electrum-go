@@ -8,4 +8,4 @@ You can:
 
 
 Support only BItcoin and Litecoin Networks right now.
-Do not work with Taproot address formats.
+
