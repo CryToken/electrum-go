@@ -9,25 +9,12 @@ import (
 // Then you Subscribe to scriptHash,server return Current STATUS.Then something change you will get new status and scriptHash.
 func (s *ElectrumServer) Subscribe(address string) (string, string, error) {
 
-	var scriptPubKey string
-	var err error
-
-	if s.Network == "Bitcoin" {
-		scriptPubKey, err = getScriptPubKey(address)
-		if err != nil {
-			return "", "", fmt.Errorf("error getting scriptPubKey: %w", err)
-		}
-	} else if s.Network == "Litecoin" {
-		scriptPubKey, err = getLitecoinScriptPubKey(address)
-		if err != nil {
-			return "", "", fmt.Errorf("error getting scriptPubKey: %w", err)
-		}
-	} else {
-		return "", "", fmt.Errorf("Unsupported Network: %s", s.Network)
+	//Getting ScriptHash
+	scriptHash, err := AddressToScriptHash(address)
+	if err != nil {
+		return "", "", err
 	}
 
-	//Getting ScriptHash
-	scriptHash := getScriptHash(scriptPubKey)
 	//Request param
 	request := ElectrumRequest{
 		ID:     3,
@@ -37,12 +24,12 @@ func (s *ElectrumServer) Subscribe(address string) (string, string, error) {
 
 	requestData, err := json.Marshal(request)
 	if err != nil {
-		return scriptHash, "", fmt.Errorf("Error: %w", err)
+		return scriptHash, "", fmt.Errorf("error: %w", err)
 	}
 
 	_, err = s.Conn.Write(append(requestData, '\n'))
 	if err != nil {
-		return scriptHash, "", fmt.Errorf("Error: %w", err)
+		return scriptHash, "", fmt.Errorf("error: %w", err)
 	}
 	reader := bufio.NewReader(s.Conn)
 
@@ -58,7 +45,7 @@ func (s *ElectrumServer) Subscribe(address string) (string, string, error) {
 	}
 
 	if response.Error != nil {
-		return scriptHash, "", fmt.Errorf("error: %s", response.Error)
+		return scriptHash, "", fmt.Errorf("error: %s", response.Error.Message)
 	}
 
 	var status string

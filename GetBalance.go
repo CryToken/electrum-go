@@ -7,26 +7,12 @@ import (
 
 func (s *ElectrumServer) GetBalance(address string) (int64, int64, error) {
 	const method = "blockchain.scripthash.get_balance"
-	var scriptPubKey string
-	var err error
-
-	if s.Network == "Bitcoin" {
-		scriptPubKey, err = getScriptPubKey(address)
-		if err != nil {
-			return 0, 0, fmt.Errorf("error getting scriptPubKey: %w", err)
-		}
-	} else if s.Network == "Litecoin" {
-		scriptPubKey, err = getLitecoinScriptPubKey(address)
-		if err != nil {
-			return 0, 0, fmt.Errorf("error getting scriptPubKey: %w", err)
-		}
-	} else {
-		return 0, 0, fmt.Errorf("Unsupported Network:%s ", s.Network)
-	}
 
 	//Getting ScriptHash
-	scriptHash := getScriptHash(scriptPubKey)
-
+	scriptHash, err := AddressToScriptHash(address)
+	if err != nil {
+		return 0, 0, err
+	}
 	var balance Balance
 
 	request := ElectrumRequest{

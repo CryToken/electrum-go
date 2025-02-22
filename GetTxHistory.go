@@ -8,26 +8,12 @@ import (
 
 func (s *ElectrumServer) GetTxHistory(address string) ([]TxHistory, string, error) {
 	const method = "blockchain.scripthash.get_history"
-	var scriptPubKey string
-	var err error
-
-	if s.Network == "Bitcoin" {
-		scriptPubKey, err = getScriptPubKey(address)
-
-		if err != nil {
-			return nil, "", fmt.Errorf("error getting scriptPubKey: %w", err)
-		}
-	} else if s.Network == "Litecoin" {
-		scriptPubKey, err = getLitecoinScriptPubKey(address)
-		if err != nil {
-			return nil, "", fmt.Errorf("error getting scriptPubKey: %w", err)
-		}
-	} else {
-		return nil, "", fmt.Errorf("Unsupported Network:%s ", s.Network)
-	}
 
 	//Getting ScriptHash
-	scriptHash := getScriptHash(scriptPubKey)
+	scriptHash, err := AddressToScriptHash(address)
+	if err != nil {
+		return []TxHistory{}, "", err
+	}
 
 	var history []TxHistory
 
