@@ -54,12 +54,12 @@ func main() {
 }
 ```
 
-You can:
- GetBalance()
- 
- GetTxHistory()
- 
- Subscribe for Changes
+>You can:
+
+ * GetBalance()
+ * GetTx
+ * GetTxHistory()
+ * Subscribe for changes.
 
 
 Support only BItcoin and Litecoin Networks right now.
